@@ -1,7 +1,16 @@
 services:
+  proxy:
+    image: ghcr.io/winebarrel/dap:v0.1.2
+    environment:
+      DAP_COOKIE_HASH_KEY: my-secret
+      DAP_BACKENDS: "8000=http://server:5173"
+      DAP_REALM: example.com
+      DAP_USERS: "john=b98e16cbc3d01734b264adba7baa3bf9"
+    ports:
+      - 8000:8000
+    depends_on:
+      - server
   server:
     build:
       context: .
-    ports:
-      - 5173:5173
-    init : true
+    init: true
